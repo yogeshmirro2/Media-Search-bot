@@ -17,5 +17,4 @@ COPY requirements.txt requirements.txt
 RUN pip install --user --no-cache-dir -r requirements.txt
 
 COPY . .
-
-CMD python3 bot.py
+CMD ["bash", "start.sh"]
