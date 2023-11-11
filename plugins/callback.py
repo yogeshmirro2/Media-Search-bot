@@ -25,7 +25,7 @@ async def button(bot:Client, cmd:CallbackQuery):
             #adding next ,back , close & page No. button
             btn.append([InlineKeyboardButton("BACK",callback_data=f"back_{query}_{current_page-1}_{total_pages}"),InlineKeyboardButton(f"{current_page}/{total_pages}",callback_data="ignore"),InlineKeyboardButton("NEXT",callback_data=f"next_{query}_{current_page+1}_{total_pages}")])
             btn.append([InlineKeyboardButton("Close", callback_data="close")])
-            await cmd.mesaage.edit(f"**{total_results}** Result Found for **__{query}__**",reply_markup = btn)
+            await cmd.message.edit(f"**{total_results}** Result Found for **__{query}__**",reply_markup = btn)
         else:
             return
     
@@ -47,7 +47,7 @@ async def button(bot:Client, cmd:CallbackQuery):
             #adding next ,back , close & page No. button
             btn.append([InlineKeyboardButton("BACK",callback_data=f"back_{query}_{current_page-1}_{total_pages}"),InlineKeyboardButton(f"{current_page}/{total_pages}",callback_data="ignore"),InlineKeyboardButton("NEXT",callback_data=f"next_{query}_{current_page+1}_{total_pages}")])
             btn.append([InlineKeyboardButton("Close", callback_data="close")])
-            await cmd.mesaage.edit(f"**{total_results}** Result Found for **__{query}__**",reply_markup = btn)
+            await cmd.message.edit(f"**{total_results}** Result Found for **__{query}__**",reply_markup = btn)
         else:
             return
     
