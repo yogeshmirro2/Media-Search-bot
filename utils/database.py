@@ -348,7 +348,7 @@ class Database:
         
         else:
             if current_page <= total_pages:
-                offset = 10*(next_page-1)
+                offset = 10*(current_page-1)
         
         # Slice files according to offset and max results
         cursor.skip(offset).limit(max_results)
