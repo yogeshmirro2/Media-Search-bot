@@ -11,9 +11,9 @@ async def button(bot:Client, cmd:CallbackQuery):
     
     if "next" in cb_data:
         unused_var, query, next_page, total_pages = cb_data.split("_")
-        if next_page>total_pages:
+        if int(next_page)>total_pages:
             next_page = 1
-        files, total_results, total_pages, current_page = await db.get_search_results(query, current_page=next_page)
+        files, total_results, total_pages, current_page = await db.get_search_results(query, current_page=int(next_page))
         if len(files)>=1:
             btn = []
             for result in files:
@@ -33,9 +33,9 @@ async def button(bot:Client, cmd:CallbackQuery):
     
     elif "back" in cb_data:
         unused_var, query, next_page, total_pages = cb_data.split("_")
-        if next_page==0:
+        if int(next_page)==0:
             next_page = 1
-        files, total_results, total_pages, current_page = await db.get_search_results(query, current_page=next_page)
+        files, total_results, total_pages, current_page = await db.get_search_results(query, current_page=int(next_page))
         if len(files)>=1:
             btn = []
             for result in files:
