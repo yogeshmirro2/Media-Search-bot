@@ -355,7 +355,7 @@ class Database:
     
         # Get list of files
         files = await cursor.to_list(length=max_results)
-        return files, total_results, total_pages, current_page
+        return files, total_results, total_pages, int(current_page)
     
     
     async def get_file(file_unique_id:str):#get file using file_unique_id
