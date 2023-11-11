@@ -113,7 +113,7 @@ async def get_shortlink(link):
         
 async def user_verify_status(bot: Client, cmd: Message, edits: Message):
     try:
-        key = message.command[1].lsplit("_",1)[1]#getting key from command of verify
+        key = message.command[1].split("_",1)[1]#getting key from command of verify
         
         if await db.verify_days_status("get_days") is not None and  await db.verification_status("get_status"):
             usr_verify_datetime_formate = await db.get_verify_date(cmd.from_user.id)
