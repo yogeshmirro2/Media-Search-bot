@@ -1,5 +1,5 @@
 from pyrogram import Client, filters
-from utils.database import db
+from database import db
 
 media_filter = filters.document | filters.video | filters.audio
 
@@ -33,7 +33,8 @@ async def media(bot, message):
                 file_name = message.audio.file_name
                 file_caption = message.caption if message.caption else ""
             
-            else return
+            else:
+                return
             
             await db.save_media(channel_id,file_id,file_unique_id,file_size,file_name,file_caption)
         
