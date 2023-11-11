@@ -1,72 +1,30 @@
 import re
-from os import environ
+import os
+class Config(object):
+    SESSION = os.environ.get('SESSION', 'Media_search')
+    USER_SESSION = os.environ.get('USER_SESSION','User_Bot')
+    API_ID = os.environ.get('API_ID')
+    API_HASH = os.environ.get('API_HASH')
+    BOT_TOKEN = os.environ.get('BOT_TOKEN')
+    BOT_USERNAME = os.environ.get('BOT_USERNAME')
+    USERBOT_STRING_SESSION = os.environ.get('USERBOT_STRING_SESSION')
+    CACHE_TIME = os.environ.get('CACHE_TIME',300)
+    USE_CAPTION_FILTER = os.environ.get('USE_CAPTION_FILTER',True)
+    BOT_OWNER = int(os.environ.get("BOT_OWNER"))
+    BOT_ADMINS = list(int(x) for x in os.environ.get("BOT_ADMINS","").split())
+    BOT_ADMINS.append(BOT_OWNER)
+    UPDATES_CHANNEL = os.environ.get('UPDATES_CHANNEL',None)#force subscribe channel id
+    INVITE_LINK = os.environ.get("INVITE_LINK",None)#it is invite link of UPDATES_CHANNEL channel
+    #DB_CHANNELS = list(int(x) for x in os.environ.get("DB_CHANNELS","").split())
+    DATABASE_URL = os.environ.get('DATABASE_URL')#mongodb url
+    DATABASE_NAME = os.environ.get('DATABASE_NAME','Media_Search_Bot')
+    VERIFY_KEY = os.environ.get("VERIFY_KEY","").split()#multiple VERIFY_KEY separated by space.if VERIFICATION and USE_PRESHORTED_LINK is True then VERIFY_LINK and VERIFY_KEY must be fill.which VERIFY_LINK & VERIFY_KEY related to each other must be same index in both VERIFY_LINK and VERIFY_KEY var like --- "hhjdjdj" this key is ralated to https://www.shorted_link.com then if "hhjdjdj" key is at index 1 then https://www.shorted_link.com must also be at index 1 
+    VERIFY_LINK = os.environ.get("VERIFY_LINK","").split()#multiple VERIFY_LINK separated by space.https://t.me/(your bot username without @)?start=verify_(your key which you fill in VERIFY_KEY Var)  ---- this is example of verify link,short this verify link by link shortner and get shorted link this shorted link fill here VERIFY_LINK var.for one verify key one shorted link.verify key and related shorted link must be at same index in their respective var as mention above in VERIFY_KEY
+    VERIFICATION = os.environ.get("VERIFICATION",False)
+    VERIFY_DAYS = os.environ.get("VERIFY_DAYS",None)
+    USE_PRESHORTED_LINK = os.environ.get("USE_PRESHORTED_LINK",False)
+    HOW_TO_VERIFY = os.environ.get("HOW_TO_VERIFY","")#if you want give a short instruction to user that how they can complete their VERIFICATION then add here that text
+    SHORTNER_API_LINK = os.environ.get("SHORTNER_API_LINK",None)#if VERIFICATION os True and USE_PRESHORTED_LINK is not true then SHORTNER_API and SHORTNER_API_LINK var must be fill
+    SHORTNER_API = os.environ.get("SHORTNER_API",None)
 
-id_pattern = re.compile(r'^.\d+$')
 
-# # Bot information
-# SESSION = environ.get('SESSION', 'Media_search')
-# USER_SESSION = environ.get('USER_SESSION', 'User_Bot')
-# API_ID = int(environ['API_ID'])
-# API_HASH = environ['API_HASH']
-# BOT_TOKEN = environ['BOT_TOKEN']
-# USERBOT_STRING_SESSION = environ.get('USERBOT_STRING_SESSION')
-
-# # Bot settings
-# CACHE_TIME = int(environ.get('CACHE_TIME', 300))
-# USE_CAPTION_FILTER = bool(environ.get('USE_CAPTION_FILTER', False))
-
-# # Admins, Channels & Users
-# ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ['ADMINS'].split()]
-# CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ['CHANNELS'].split()]
-# auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '').split()]
-# AUTH_USERS = (auth_users + ADMINS) if auth_users else []
-# auth_channel = environ.get('AUTH_CHANNEL')
-# AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_channel) else auth_channel
-
-# # MongoDB information
-# DATABASE_URI = environ['DATABASE_URI']
-# DATABASE_NAME = environ['DATABASE_NAME']
-# COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
-
-# # Messages
-# default_start_msg = """
-# **Hi, I'm Media Search bot**
-
-# Here you can search files in inline mode. Just press following buttons and start searching.
-# """
-
-# START_MSG = environ.get('START_MSG', default_start_msg)
-# SHARE_BUTTON_TEXT = 'Checkout {username} for searching files'
-# INVITE_MSG = environ.get('INVITE_MSG', 'Please join @.... to use this bot')
-# Bot information
-SESSION = 'Media_search'
-USER_SESSION = 'User_Bot'
-API_ID = 18860540
-API_HASH = '22dd2ad1706199438ab3474e85c9afab'
-BOT_TOKEN = '6167341719:AAEiVk9LhPCb38AT6jVkzdDhy_3kk_vEcbI'
-USERBOT_STRING_SESSION = 'AQBiMZkAIrYCK0bqxkWlvPkE8RdSTe_zgZap6TqAMUaxvKfJYds63KRABTZoHGQzay9jEsmg3ecFied8JRKexiUcMnrGw5w1XwPd8-Pqpe8nrWJAUY0jHxSVzQ1hM-kDky6Ze0nDykRFH1RaKX3tCuNO94mp75dNfcC6uL6iJXZgPsHTEiX5I_t38DECfzNwquPgv5WJsG1Y1-EvBLCS7ilC2Wc7sUgTBRrFJ4ZnZVolJD4-ot_rTMEG7Sq2sjg8RZFzohIMNMngd-nxz672oR-dfaZAps8LNa3eAghulbJG7tNsv6QhdRYDRUZfC1Am6qVD_8VkgsXk0L9ZmKO-GCWaLrqj8QAAAAE5Jv7jAA'
-
-# Bot settings
-CACHE_TIME = 300
-USE_CAPTION_FILTER = True
-
-# Admins, Channels & Users
-ADMINS = [5123176772]
-CHANNELS = [-1001975184173]
-AUTH_USERS = []
-AUTH_CHANNEL = None
-
-# MongoDB information
-DATABASE_URI = "mongodb+srv://ankur560s:ankur560@cluster00.nlwm8ya.mongodb.net/?retryWrites=true&w=majority"
-DATABASE_NAME = 'Telegram'
-COLLECTION_NAME = 'channel_files'  # If you are using the same database, then use different collection name for each bot
-
-# Messages
-START_MSG = """
-**Hi, I'm Media Search bot**
-
-Here you can search files in inline mode. Just press follwing buttons and start searching.
-"""
-
-SHARE_BUTTON_TEXT = 'Checkout {username} for searching files'
-INVITE_MSG = 'Please join @.... to use this bot'
