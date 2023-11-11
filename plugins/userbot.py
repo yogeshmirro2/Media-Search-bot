@@ -11,7 +11,7 @@ from utils.database import db
 logger = logging.getLogger(__name__)
 lock = asyncio.Lock()
 
-@Clients.on_message(filters.private & filters.command('index'))
+@Client.on_message(filters.private & filters.command('index'))
 async def index_files(bot, message):
     """Save channel or group files with the help of user bot"""
     try:
