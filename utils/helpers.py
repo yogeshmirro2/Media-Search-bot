@@ -190,13 +190,13 @@ async def verify_before_send(bot: Client, cmd: CallbackQuery):
                 usr_link = verify_link_list[verify_key_list.index(usr_key)]
                 btn = [[InlineKeyboardButton("click here to verify",url=usr_link)],[InlineKeyboardButton("Watch Tutorial",url=how_verify)]]
                 await cmd.answer("You'll get your file after verification😁😁",show_alert=True)
-                await cmd.mesaage.edit(f"**Dear User! You are not verified🚫\nPlease verify now by clicking the link given below😛😛\nYou'll get your file after verification😁😁\nYour verification valid till next `__{day}__`**\n\nप्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day} दिन तक मान्य होगा।",reply_markup=btn)
+                await cmd.message.edit(f"**Dear User! You are not verified🚫\nPlease verify now by clicking the link given below😛😛\nYou'll get your file after verification😁😁\nYour verification valid till next `__{day}__`**\n\nप्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day} दिन तक मान्य होगा।",reply_markup=btn)
                 return 400 #400 is sign of stop furthur step
             elif not await db.use_pre_shorted_link_status("status") and await db.verify_key_link_status("status"):
-                await cmd.mesaage.edit("**use_pre_shorted_link not enable.\nplease report bot owner🙏🙏🙏**")
+                await cmd.message.edit("**use_pre_shorted_link not enable.\nplease report bot owner🙏🙏🙏**")
                 return 400
             elif not await db.verify_key_link_status("status") and await db.use_pre_shorted_link_status("status"):
-                await cmd.mesaage.edit("**there are no verify key or verify link exist.\n please report bot owner🙏🙏🙏**")
+                await cmd.message.edit("**there are no verify key or verify link exist.\n please report bot owner🙏🙏🙏**")
                 return 400
             else:
                 usr_link_short = f"https://telegram.me/{Config.BOT_USERNAME}?start=verify_{usr_key}"
@@ -204,19 +204,19 @@ async def verify_before_send(bot: Client, cmd: CallbackQuery):
                 if shorted_link:
                     how_verify = await db.how_to_verify_statua("status")
                     btn = [[InlineKeyboardButton("click here to verify",url=shorted_link)],[InlineKeyboardButton("Watch Tutorial",url=how_verify)]]
-                    await cmd.mesaage.edit(f"**Dear User! You are not verified🚫\nPlease verify now by clicking the link given below😛😛\nYou'll get your file after verification😁😁\nYour verification valid till next `__{day}__`**\n\nप्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day} दिन तक मान्य होगा।",reply_markup=btn)
+                    await cmd.message.edit(f"**Dear User! You are not verified🚫\nPlease verify now by clicking the link given below😛😛\nYou'll get your file after verification😁😁\nYour verification valid till next `__{day}__`**\n\nप्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day} दिन तक मान्य होगा।",reply_markup=btn)
                     return 400
                 else:
-                    await cmd.mesaage.edit("**there are no shortner availible.\nplease report bot owner🙏🙏🙏")
+                    await cmd.message.edit("**there are no shortner availible.\nplease report bot owner🙏🙏🙏")
                     return 400
         elif not await db.verify_days_status("status") and await db.verification_status("status"):
-            await cmd.mesaage.edit("**verification is enabled but could't find verify days\nplz report bot owner**")
+            await cmd.message.edit("**verification is enabled but could't find verify days\nplz report bot owner**")
             return 400
         else:
             return 20
     
     except Exception as e:
-        await edits.edit(f"**there are some problem during verification\n\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\nplease forward this error to bot owner") 
+        await cmd.message.edit(f"**there are some problem during verification\n\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\nplease forward this error to bot owner") 
         return 400
 
 
