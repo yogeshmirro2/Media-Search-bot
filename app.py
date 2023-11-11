@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'store_bot'
+    return 'media_search_bot'
 
 
 if __name__ == "__main__":
