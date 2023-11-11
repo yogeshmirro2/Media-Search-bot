@@ -8,7 +8,7 @@ logging.getLogger().setLevel(logging.WARNING)
 from pyrogram import Client, __version__
 from pyrogram.raw.all import layer
 from info import Config
-from database import db
+from utils.database import db
 
 class Bot(Client):
 
