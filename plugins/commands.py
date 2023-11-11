@@ -251,7 +251,7 @@ async def delete_update_channel_link(bot, message):
 @Client.on_message(filters.command("change_verification") & filters.private & filters.user(Config.BOT_ADMINS))
 async def change_verification(bot, message):
     try:
-        results = await db.verification_status()
+        results = await db.verification_status("status")
         if results:
             result = "False"
         else:
