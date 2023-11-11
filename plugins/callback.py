@@ -55,7 +55,8 @@ async def button(bot:Client, cmd:CallbackQuery):
     elif "send" in cb_data:
         response = await verify_before_send(bot,cmd)
         if response == 20:
-            file_id , file_caption = await db.get_file(cb_data.split("_")[-1])#cb_data.split("_")[-1] get file_unique_id
+            file_unique_id = cb_data.lsplit("_",1)[-1]
+            file_id , file_caption = await db.get_file(file_unique_id)#cb_data.split("_")[-1] get file_unique_id
             return await bot.send_cached_media(cmd.from_user.id,file_id,file_caption)
         return
 
