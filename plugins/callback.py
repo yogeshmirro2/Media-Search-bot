@@ -2,8 +2,8 @@ import asyncio
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserNotParticipant, QueryIdInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
-from database import db
-from helpers import get_file_size, verify_before_send
+from utils.database import db
+from utils.helpers import get_file_size, verify_before_send
 
 @Client.on_callback_query()
 async def button(bot:Client, cmd:CallbackQuery):
