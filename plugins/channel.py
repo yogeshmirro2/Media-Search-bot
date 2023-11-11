@@ -1,5 +1,5 @@
 from pyrogram import Client, filters
-from database import db
+from utils.database import db
 
 media_filter = filters.document | filters.video | filters.audio
 
