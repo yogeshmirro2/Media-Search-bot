@@ -57,7 +57,9 @@ async def button(bot:Client, cmd:CallbackQuery):
         if response == 20:
             file_unique_id = cb_data.split("_",1)[-1]
             file_id , file_caption = await db.get_file(file_unique_id)#cb_data.split("_")[-1] get file_unique_id
-            return await bot.send_cached_media(cmd.from_user.id,file_id,file_caption)
+            await bot.send_cached_media(cmd.from_user.id,file_id,file_caption)
+            await cmd.answer()
+            return
         return
 
     elif "refreshForceSub" in cb_data:
