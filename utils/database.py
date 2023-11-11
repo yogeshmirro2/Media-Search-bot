@@ -358,7 +358,7 @@ class Database:
         return files, total_results, total_pages, int(current_page)
     
     
-    async def get_file(file_unique_id:str):#get file using file_unique_id
+    async def get_file(self,file_unique_id:str):#get file using file_unique_id
         file = await self.mcol.find_one({'file_unique_id': file_unique_id})
         file_id = file.get("file_id")
         file_caption = file.get("file_caption")
