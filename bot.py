@@ -7,18 +7,17 @@ logging.getLogger().setLevel(logging.WARNING)
 
 from pyrogram import Client, __version__
 from pyrogram.raw.all import layer
-from utils import Media
-from info import SESSION, API_ID, API_HASH, BOT_TOKEN
-
+from info import Config
+from database import db
 
 class Bot(Client):
 
     def __init__(self):
         super().__init__(
-            name=SESSION,
-            api_id=API_ID,
-            api_hash=API_HASH,
-            bot_token=BOT_TOKEN,
+            name=Config.SESSION,
+            api_id=Config.API_ID,
+            api_hash=Config.API_HASH,
+            bot_token=Config.BOT_TOKEN,
             workers=50,
             plugins={"root": "plugins"},
             sleep_threshold=5,
@@ -26,9 +25,11 @@ class Bot(Client):
 
     async def start(self):
         await super().start()
-        await Media.ensure_indexes()
         me = await self.get_me()
         self.username = '@' + me.username
+        db_status = db.check_bot_setting_exist()
+        if not db_status:
+            await db.add_bot_db()
         print(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
 
     async def stop(self, *args):
