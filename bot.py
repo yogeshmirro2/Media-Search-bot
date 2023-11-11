@@ -27,7 +27,7 @@ class Bot(Client):
         await super().start()
         me = await self.get_me()
         self.username = '@' + me.username
-        db_status = db.check_bot_setting_exist()
+        db_status = await db.check_bot_setting_exist()
         if not db_status:
             await db.add_bot_db()
         print(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
