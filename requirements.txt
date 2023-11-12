@@ -7,3 +7,4 @@ umongo==3.0.1
 aiohttp
 flask
 gunicorn
+aiofiles
