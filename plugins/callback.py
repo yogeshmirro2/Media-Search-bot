@@ -31,7 +31,7 @@ async def button(bot:Client, cmd:CallbackQuery):
                 return
         
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     elif "back" in cb_data:
@@ -55,7 +55,7 @@ async def button(bot:Client, cmd:CallbackQuery):
             else:
                 return
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     elif "send" in cb_data:
@@ -69,7 +69,7 @@ async def button(bot:Client, cmd:CallbackQuery):
                 return
             return
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     elif "refreshForceSub" in cb_data:
@@ -112,7 +112,7 @@ async def button(bot:Client, cmd:CallbackQuery):
                 
             )
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     
@@ -130,7 +130,7 @@ async def button(bot:Client, cmd:CallbackQuery):
                 return
             await cmd.message.edit(f"**Now your verification is {bool_string}**")
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     elif "use_pre_shorted_link" in cb_data:
@@ -139,7 +139,7 @@ async def button(bot:Client, cmd:CallbackQuery):
             await db.use_pre_shorted_link_status(bool_string)
             await cmd.message.edit(f"**Now your use_pre_shorted_link is {bool_string}**")
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     
@@ -152,7 +152,7 @@ async def button(bot:Client, cmd:CallbackQuery):
         try:
             await cmd.message.delete(True)
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
         
