@@ -236,7 +236,7 @@ async def verify_before_send(bot: Client, cmd: CallbackQuery):
             return 20
     
     except Exception as e:
-        await edits.edit(f"**there are some problem during verification\n\nError - {e}\n\
+        await cmd.message.edit(f"**there are some problem during verification\n\nError - {e}\n\
         Error Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\
         please forward this error to bot owner") 
         return 400
