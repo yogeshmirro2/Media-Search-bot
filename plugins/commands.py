@@ -38,7 +38,10 @@ async def search(bot, message):
                 result_size = await get_file_size(result_size)
                 btn.append([InlineKeyboardButton(f"{result_size}:{result_caption}", callback_data=f"send_{result_unique_id}")])
             #adding next ,back , close & page No. button
-            btn.append([InlineKeyboardButton("BACK",callback_data=f"back_{query}_{current_page-1}_{total_pages}"),InlineKeyboardButton(f"{current_page}/{total_pages}",callback_data="ignore"),InlineKeyboardButton("NEXT",callback_data=f"next_{query}_{current_page+1}_{total_pages}")])
+            if total_pages==1:
+                btn.append([InlineKeyboardButton(f"{current_page}/{total_pages}",callback_data="ignore")])
+            else:
+                btn.append([InlineKeyboardButton("BACK",callback_data=f"back_{query}_{current_page-1}_{total_pages}"),InlineKeyboardButton(f"{current_page}/{total_pages}",callback_data="ignore"),InlineKeyboardButton("NEXT",callback_data=f"next_{query}_{current_page+1}_{total_pages}")])
             btn.append([InlineKeyboardButton("Close", callback_data="close")])
             return await msg.edit(f"**{total_results}** Result Found for **__{query}__**",reply_markup = InlineKeyboardMarkup(btn))
         else:
