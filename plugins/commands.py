@@ -82,7 +82,7 @@ async def start(bot, message):
     elif len(message.command)>1 and "verify" in message.command[1]:
         try:
             if message.from_user.id not in Config.BOT_ADMINS:
-                edits = await message.relpy(f"**Plz __Wait Processing__ Your Verification**")
+                edits = await message.reply(f"**Plz __Wait Processing__ Your Verification**")
                 response = await user_verify_status(bot,message,edits)
                 return
             
