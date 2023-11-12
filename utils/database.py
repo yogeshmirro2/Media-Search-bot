@@ -259,6 +259,8 @@ class Database:
                 user = await self.col.find_one({'id': int(id)})
                 updated_key = user.get("verify_key")
                 return updated_key
+            else:
+                return key
         else:
             return key
 
