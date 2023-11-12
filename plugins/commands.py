@@ -396,7 +396,7 @@ async def delete_how_to_verify(bot, message):
 async def get_total_users(bot, message):
     try:
         count = await db.total_users_count()
-        return await message.reply(f"**Total Users in DB:**__{count}__")
+        return await message.reply(f"**Total Users in DB:**__{count}__", quote=True)
     except Exception as e:
         return await message.reply(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
         
