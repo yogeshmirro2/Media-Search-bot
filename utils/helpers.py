@@ -145,7 +145,8 @@ async def user_verify_status(bot: Client, cmd: Message, edits: Message):
                     verify_key_list,verify_link_list = await db.verify_key_link_status("get_list")
                     how_verify = await db.how_to_verify_statua("status")
                     usr_link = verify_link_list[verify_key_list.index(usr_key)]
-                    await edits.edit(f"**your __new verification link__ is👇👇👇👇\n__{usr_link}__\nOnce you verify , your verification valid till next {day} days**\n__--To get any help in Verification Watch Below Tutorial--__\n__{how_verify}__")
+                    await edits.edit(f"**your __new verification link__ is👇👇👇👇\n__{usr_link}__\nOnce you verify , your verification valid till next {day} \
+                    days**\n__--To get any help in Verification Watch Below Tutorial--__\n__{how_verify}__")
                     return 400 #400 is sign of stop furthur step
                 elif not await db.use_pre_shorted_link_status("status") and await db.verify_key_link_status("status"):
                     await edits.edit("**use_pre_shorted_link not enable.\nplease report bot owner🙏🙏🙏**")
@@ -158,7 +159,9 @@ async def user_verify_status(bot: Client, cmd: Message, edits: Message):
                     shorted_link = await get_shortlink(usr_link_short)
                     if shorted_link:
                         how_verify = await db.how_to_verify_statua("status")
-                        await edits.edit(f"**your new verification link is👇👇👇👇\n{shorted_link}\nOnce you verify , your verification valid till next {day} days\n__--To get any help in Verification Watch Below Tutorial--__\n__{how_verify}__")
+                        await edits.edit(f"**your new verification link is👇👇👇👇\n{shorted_link}\nOnce you verify , \
+                        your verification valid till next {day} days\n\
+                        __--To get any help in Verification Watch Below Tutorial--__\n__{how_verify}__")
                         return 400
                     else:
                         await edits.edit("**there are no shortner availible.\nplease report bot owner🙏🙏🙏")
@@ -174,7 +177,8 @@ async def user_verify_status(bot: Client, cmd: Message, edits: Message):
     
     
     except Exception as e:
-        await edits.edit(f"**there are some problem during verification\n\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\nplease forward this error to bot owner") 
+        await edits.edit(f"**there are some problem during verification\n\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+        Error From :- `{__file__,e.__traceback__.tb_lineno}`\nplease forward this error to bot owner") 
         return 400
         
 
@@ -196,8 +200,12 @@ async def verify_before_send(bot: Client, cmd: CallbackQuery):
                 how_verify = await db.how_to_verify_statua("status")
                 usr_link = verify_link_list[verify_key_list.index(usr_key)]
                 btn = [[InlineKeyboardButton("click here to verify",url=usr_link)],[InlineKeyboardButton("Watch Tutorial",url=how_verify)]]
-                await cmd.answer("You'll get your file after verification😁😁",show_alert=True)
-                await cmd.message.edit(f"**Dear User! You are not verified🚫\nPlease verify now by clicking the link given below😛😛\nYou'll get your file after verification😁😁\nYour verification valid till next `__{day}__`**\n\nप्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day} दिन तक मान्य होगा।",reply_markup=btn)
+                await cmd.answer("You'll get your file after verification✋",show_alert=True)
+                await cmd.message.edit(f"**Dear User! You are not verified🚫\nPlease verify now by clicking the link given below😛😛\n\
+                You'll get your file after verification😁😁\nYour verification valid till next `__{day}__`**\n\n\
+                __if you are having any problem with verification, send screen-recording showing the problem to @t.me/movierequests02 or @ @rockstarSupport1 and ask for help.__\n\n\
+                प्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day}\z दिन तक मान्य होगा।\n\
+                __यदि आपको verify करने में कोई समस्या आ रही है, तो उस समस्या की screen-recording @t.me/movierequests02  या @rockstarSupport1 पर भेजकर मदद मांगें।__",reply_markup=btn)
                 return 400 #400 is sign of stop furthur step
             elif not await db.use_pre_shorted_link_status("status") and await db.verify_key_link_status("status"):
                 await cmd.message.edit("**use_pre_shorted_link not enable.\nplease report bot owner🙏🙏🙏**")
@@ -211,7 +219,12 @@ async def verify_before_send(bot: Client, cmd: CallbackQuery):
                 if shorted_link:
                     how_verify = await db.how_to_verify_statua("status")
                     btn = [[InlineKeyboardButton("click here to verify",url=shorted_link)],[InlineKeyboardButton("Watch Tutorial",url=how_verify)]]
-                    await cmd.message.edit(f"**Dear User! You are not verified🚫\nPlease verify now by clicking the link given below😛😛\nYou'll get your file after verification😁😁\nYour verification valid till next `__{day}__`**\n\nप्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day} दिन तक मान्य होगा।",reply_markup=btn)
+                    await cmd.answer("You'll get your file after verification✋",show_alert=True)
+                    await cmd.message.edit(f"**Dear User! You are not verified🚫\nPlease verify now by clicking the link given below😛😛\n\
+                    You'll get your file after verification😁😁\nYour verification valid till next `__{day}__`**\n\n\
+                    __if you are having any problem with verification, send screen-recording showing the problem to @t.me/movierequests02 or @ @rockstarSupport1 and ask for help.__\n\n\
+                    प्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day}\z दिन तक मान्य होगा।\n\
+                    __यदि आपको verify करने में कोई समस्या आ रही है, तो उस समस्या की screen-recording @t.me/movierequests02  या @rockstarSupport1 पर भेजकर मदद मांगें।__",reply_markup=btn)
                     return 400
                 else:
                     await cmd.message.edit("**there are no shortner availible.\nplease report bot owner🙏🙏🙏")
@@ -223,7 +236,9 @@ async def verify_before_send(bot: Client, cmd: CallbackQuery):
             return 20
     
     except Exception as e:
-        await edits.edit(f"**there are some problem during verification\n\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\nplease forward this error to bot owner") 
+        await edits.edit(f"**there are some problem during verification\n\nError - {e}\n\
+        Error Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\
+        please forward this error to bot owner") 
         return 400
 
 
