@@ -390,3 +390,17 @@ async def delete_how_to_verify(bot, message):
         return await message.reply("**Successfully deleted HOW_TO_VERIFY data**")
     except Exception as e:
         return await message.reply(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+
+
+@Client.on_message(filters.command("status") & filters.private & filters.user(Config.BOT_ADMINS))
+async def get_total_users(bot, message):
+    try:
+        count = await db.total_users_count()
+        return await message.reply(f"**Total Users in DB:**__{count}__")
+    except Exception as e:
+        return await message.reply(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+        
+        
+@Client.on_message(filters.command("broadcast") & filters.private & filters.user(Config.BOT_ADMINS) & filters.reply)
+async def broadcast_handler_open(bot, message):
+    await main_broadcast_handler(message, db)
