@@ -31,7 +31,8 @@ async def button(bot:Client, cmd:CallbackQuery):
                 return
         
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+            Error From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     elif "back" in cb_data:
@@ -55,7 +56,8 @@ async def button(bot:Client, cmd:CallbackQuery):
             else:
                 return
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\n\
+            Error Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     elif "send" in cb_data:
@@ -69,7 +71,8 @@ async def button(bot:Client, cmd:CallbackQuery):
                 return
             return
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+            Error From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     elif "refreshForceSub" in cb_data:
@@ -108,11 +111,14 @@ async def button(bot:Client, cmd:CallbackQuery):
                     )
                     return
             await cmd.message.edit(
-                text=f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling**\nExample :- `/search Avengers`\n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , अगर वह मेरे database में होगी तो आपके भेज दी जाएगी" ,
+                text=f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling**\n\
+                Example :- `/search Avengers`\n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , \
+                अगर वह मेरे database में होगी तो आपके भेज दी जाएगी" ,
                 
             )
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+            Error From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     
@@ -130,7 +136,8 @@ async def button(bot:Client, cmd:CallbackQuery):
                 return
             await cmd.message.edit(f"**Now your verification is {bool_string}**")
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+            Error From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     elif "use_pre_shorted_link" in cb_data:
@@ -139,7 +146,8 @@ async def button(bot:Client, cmd:CallbackQuery):
             await db.use_pre_shorted_link_status(bool_string)
             await cmd.message.edit(f"**Now your use_pre_shorted_link is {bool_string}**")
         except Exception as e:
-            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`")
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+            Error From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
     
