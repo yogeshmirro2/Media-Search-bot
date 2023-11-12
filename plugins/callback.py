@@ -113,8 +113,7 @@ async def button(bot:Client, cmd:CallbackQuery):
             await cmd.message.edit(
                 text=f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling**\n\
                 Example :- `/search Avengers`\n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , \
-                अगर वह मेरे database में होगी तो आपके भेज दी जाएगी" ,
-                
+                अगर वह मेरे database में होगी तो आपके भेज दी जाएगी"
             )
         except Exception as e:
             await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
