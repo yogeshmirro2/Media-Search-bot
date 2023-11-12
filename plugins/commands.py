@@ -45,9 +45,13 @@ async def search(bot, message):
             btn.append([InlineKeyboardButton("Close", callback_data="close")])
             return await msg.edit(f"**{total_results}** Result Found for **__{query}__**",reply_markup = InlineKeyboardMarkup(btn))
         else:
-            return await msg.edit(f"**__Can't find any Movie which is related to your movie name\nPlz check your movie name spelling,you can take help of google for correct spelling of movie name__**\n\nप्रिय User आपके द्वारा send की गई मूवी हमारे database में नही है।कृपया भेजी गई मूवी के नाम की spelling check कर ले शायद हो सकता है कि वह spelling गलत हो , spelling चेक करने के लिए आप google की सहायता ले सकते है")
+            return await msg.edit(f"**__Can't find any Movie for\n`{query}`\nPlz check your movie name spelling,\
+            you can take help of google for correct spelling of movie name__**\n\n\
+            प्रिय User आपके द्वारा send की गई मूवी हमारे database में नही है।कृपया भेजी गई मूवी के नाम की spelling check कर ले शायद हो सकता है कि वह spelling गलत हो , \
+            spelling चेक करने के लिए आप google की सहायता ले सकते है")
     except Exception as e:
-        await message.reply(f"**🚫Error during searching files in Database🚫\nPlz Forward this Error to Bot Owner🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , movie name को Database में सर्च करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक को भेज दे" ,quote=True)
+        await message.reply(f"**🚫Error during searching files in Database🚫\nPlz Forward this Error to Bot Owner🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\n\
+        Error From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , movie name को Database में सर्च करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक को भेज दे" ,quote=True)
 
 @Client.on_message(filters.command('start') & filters.private)
 async def start(bot, message):
@@ -66,10 +70,14 @@ async def start(bot, message):
                     return
         
         except Exception as e:
-            return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to Bot Owner🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , नये user को Database में add करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक को भेज दे" ,quote=True)
+            return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to Bot Owner🛂**\n\
+            Error⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\n\
+            प्रिय User , नये user को Database में add करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक को भेज दे" ,quote=True)
     
        
-        return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling**\nExample :- `/search Avengers`\n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , अगर वह मेरे database में होगी तो आपके भेज दी जाएगी" ,quote=True)
+        return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling**\n\
+        Example :- `/search Avengers`\n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , \
+        अगर वह मेरे database में होगी तो आपके भेज दी जाएगी" ,quote=True)
     
     elif len(message.command)>1 and "verify" in message.command[1]:
         try:
