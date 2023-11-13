@@ -91,14 +91,11 @@ async def button(bot:Client, cmd:CallbackQuery):
                 except UserNotParticipant:
                     await cmd.message.edit(
                         text="**You Still Didn't Join ☹️, Please Join My Updates Channel to use this Bot!**\n\n"
-                             "Due to Overload, Only Channel Subscribers can use the Bot!",
+                             "__Plz Join Update Channel and Then Try  Again__",
                         reply_markup=InlineKeyboardMarkup(
                             [
                                 [
                                     InlineKeyboardButton("🤖 Join Updates Channel", url=update_channel_link)
-                                ],
-                                [
-                                    InlineKeyboardButton("🔄 Refresh 🔄", callback_data="refreshForceSub")
                                 ]
                             ]
                         )
