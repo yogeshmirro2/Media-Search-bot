@@ -77,11 +77,11 @@ async def button(bot:Client, cmd:CallbackQuery):
     
     elif "refreshForceSub" in cb_data:
         try:
-            updates_channel = await db.update_channel_status("get_id")
+            update_channel = await db.update_channel_status("get_id")
             update_channel_link = await db.update_channel_link_status("get_link")
-            if (updates_channel and updates_channel_link) is not None:
+            if (update_channel and update_channel_link) is not None:
                 try:
-                    user = await bot.get_chat_member(updates_channel, cmd.from_user.id)
+                    user = await bot.get_chat_member(update_channel, cmd.from_user.id)
                     if user.status == "kicked":
                         await cmd.message.edit(
                             text="Sorry Sir, You are Banned to use me. Contact my Support.",
