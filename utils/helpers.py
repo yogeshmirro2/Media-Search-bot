@@ -52,12 +52,12 @@ async def get_diff_min(user_datetime):
     
     
 async def handle_force_sub(bot: Client, cmd: Message):
-    updates_channel = await db.update_channel_status("get_id")
+    update_channel = await db.update_channel_status("get_id")
     update_channel_link = await db.update_channel_link_status("get_link")
-    if (updates_channel and updates_channel_link) is not None:
+    if (update_channel and update_channel_link) is not None:
         
         try:
-            user = await bot.get_chat_member(chat_id=updates_channel, user_id=cmd.from_user.id)
+            user = await bot.get_chat_member(chat_id=update_channel, user_id=cmd.from_user.id)
             if user.status == "kicked":
                 await bot.send_message(
                     chat_id=cmd.from_user.id,
