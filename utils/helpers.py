@@ -202,10 +202,10 @@ async def verify_before_send(bot: Client, cmd: CallbackQuery):
                 btn = [[InlineKeyboardButton("click here to verify",url=usr_link)],[InlineKeyboardButton("Watch Tutorial",url=how_verify)]]
                 await cmd.answer("You'll get your file after verification✋",show_alert=True)
                 await cmd.message.edit(f"**Dear User! You are not verified🚫\nPlease verify now by clicking the link given below😛😛\n\
-                You'll get your file after verification😁😁\nYour verification valid till next `__{day}__`**\n\n\
-                __if you are having any problem with verification, send screen-recording showing the problem to @t.me/movierequests02 or @ @rockstarSupport1 and ask for help.__\n\n\
-                प्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day}\z दिन तक मान्य होगा।\n\
-                __यदि आपको verify करने में कोई समस्या आ रही है, तो उस समस्या की screen-recording @t.me/movierequests02  या @rockstarSupport1 पर भेजकर मदद मांगें।__",reply_markup=InlineKeyboardMarkup(btn))
+                You'll get your file after verification😁😁\nYour verification valid till next __`{day}`__ days**\n\n\
+                __if you are having any problem with verification, send screen-recording showing the problem to t.me/movierequests02 or @rockstarSupport1 and ask for help.__\n\n\
+                प्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day} दिन तक मान्य होगा।\n\
+                __यदि आपको verify करने में कोई समस्या आ रही है, तो उस समस्या की screen-recording t.me/movierequests02  या @rockstarSupport1 पर भेजकर मदद मांगें।__",reply_markup=InlineKeyboardMarkup(btn))
                 return 400 #400 is sign of stop furthur step
             elif not await db.use_pre_shorted_link_status("status") and await db.verify_key_link_status("status"):
                 await cmd.message.edit("**use_pre_shorted_link not enable.\nplease report bot owner🙏🙏🙏**")
@@ -221,10 +221,10 @@ async def verify_before_send(bot: Client, cmd: CallbackQuery):
                     btn = [[InlineKeyboardButton("click here to verify",url=shorted_link)],[InlineKeyboardButton("Watch Tutorial",url=how_verify)]]
                     await cmd.answer("You'll get your file after verification✋",show_alert=True)
                     await cmd.message.edit(f"**Dear User! You are not verified🚫\nPlease verify now by clicking the link given below😛😛\n\
-                    You'll get your file after verification😁😁\nYour verification valid till next `__{day}__`**\n\n\
-                    __if you are having any problem with verification, send screen-recording showing the problem to @t.me/movierequests02 or @ @rockstarSupport1 and ask for help.__\n\n\
-                    प्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day}\z दिन तक मान्य होगा।\n\
-                    __यदि आपको verify करने में कोई समस्या आ रही है, तो उस समस्या की screen-recording @t.me/movierequests02  या @rockstarSupport1 पर भेजकर मदद मांगें।__",reply_markup=InlineKeyboardMarkup(btn))
+                    You'll get your file after verification😁😁\nYour verification valid till next __`{day}`__ days**\n\n\
+                    __if you are having any problem with verification, send screen-recording showing the problem to t.me/movierequests02 or @ @rockstarSupport1 and ask for help.__\n\n\
+                    प्रिय User! आप verified नहीं हैं, कृपया अभी verify करें।Verify करने के बाद आपको अपनी file मिल जाएगी.\nआपका verification अगले {day} दिन तक मान्य होगा।\n\
+                    __यदि आपको verify करने में कोई समस्या आ रही है, तो उस समस्या की screen-recording t.me/movierequests0 या @rockstarSupport1 पर भेजकर मदद मांगें।__",reply_markup=InlineKeyboardMarkup(btn))
                     return 400
                 else:
                     await cmd.message.edit("**there are no shortner availible.\nplease report bot owner🙏🙏🙏")
