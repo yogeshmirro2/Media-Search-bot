@@ -328,7 +328,7 @@ class Database:
             return [], ''
     
         if await self.caption_filter_status("get_status"):
-            filter = {'$or': [{'file_name': regex}, {'caption': regex}]}
+            filter = {'$or': [{'file_caption': regex} ,{'file_name': regex}]}
         else:
             filter = {'file_name': regex}
         
