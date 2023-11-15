@@ -136,7 +136,7 @@ async def log_file(bot, message):
 
 
 @Client.on_message(filters.command('delete_file') & filters.private & filters.user(Config.BOT_ADMINS))
-async def delete(bot, message):
+async def delete_file(bot, message):
     """Delete file from database"""
     try:
         reply = message.reply_to_message
@@ -170,7 +170,7 @@ async def delete(bot, message):
         
 
 @Client.on_message(filters.command('delete_channel') & filters.private & filters.user(Config.BOT_ADMINS))
-async def delete(bot, message):
+async def delete_channel(bot, message):
     """Delete Db channel and its index files from database"""
     try:
         if not message.reply_to_message:
