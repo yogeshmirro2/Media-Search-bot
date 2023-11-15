@@ -415,3 +415,22 @@ async def get_total_users(bot, message):
 @Client.on_message(filters.command("broadcast") & filters.private & filters.user(Config.BOT_ADMINS) & filters.reply)
 async def broadcast_handler_open(bot, message):
     await main_broadcast_handler(message, db)
+
+
+@Client.on_message(filters.command("change_use_caption_filter") & filters.private & filters.user(Config.BOT_ADMINS))
+async def change_use_caption_filter(bot, message):
+    try:
+        results = await db.caption_filter_status("get_status")
+        if results:
+            result = "False"
+        else:
+            result = "True"
+        btn=[[InlineKeyboardButton("click here", callback_data=f"use_caption_filter_{result}")]]
+        return await message.reply(
+            text=f"**your current status for use_caption_filter is --- {str(results)}\n click below to change status👇👇👇",
+            reply_markup=InlineKeyboardMarkup(btn),
+            quote=True,
+            disable_web_page_preview=True
+        )
+    except Exception as e:
+        return await message.reply(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
