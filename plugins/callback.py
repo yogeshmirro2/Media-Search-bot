@@ -146,6 +146,15 @@ async def button(bot:Client, cmd:CallbackQuery):
             Error From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
+    elif "use_caption_filter" in cb_data:
+        try:
+            bool_string = cb_data.rsplit("_",1)[-1]
+            await db.caption_filter_status(bool_string)
+            await cmd.message.edit(f"**Now your use_caption_filter is {bool_string}**")
+        except Exception as e:
+            await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+            Error From :- `{__file__,e.__traceback__.tb_lineno}`")
+            return
     
     
     
