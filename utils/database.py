@@ -333,8 +333,8 @@ class Database:
             filter = {'file_name': regex}
         
         total_results = await self.mcol.count_documents(filter)
-        if total_results>100:
-            total_results=100
+        if total_results>500:
+            total_results=500
         total_pages = total_results//10
         remaining_pages = total_results%10
         if remaining_pages!=0:
