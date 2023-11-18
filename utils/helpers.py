@@ -12,7 +12,7 @@ from pyrogram.errors import FloodWait, UserNotParticipant, InputUserDeactivated,
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, CallbackQuery
 from utils.database import db
 import aiohttp
-
+from info import Config
 
 
 def str_to_b64(__str: str) -> str:
@@ -187,6 +187,9 @@ async def user_verify_status(bot: Client, cmd: Message, edits: Message):
 
 async def verify_before_send(bot: Client, cmd: CallbackQuery):
     try:
+        if cmd.from_user.id in Config.BOT_ADMINS:
+            return 20
+        
         if await db.verify_days_status("get_days") is not None and  await db.verification_status("get_status"):
             usr_verify_datetime_formate = await db.get_verify_date(cmd.from_user.id)
             usr_min = await get_diff_min(usr_verify_datetime_formate)
