@@ -4,6 +4,7 @@ from pyrogram.errors import FloodWait, UserNotParticipant, QueryIdInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from utils.database import db
 from utils.helpers import get_file_size, verify_before_send
+from info import Config
 
 @Client.on_callback_query()
 async def button(bot:Client, cmd:CallbackQuery):
@@ -108,9 +109,9 @@ async def button(bot:Client, cmd:CallbackQuery):
                     )
                     return
             await cmd.message.edit(
-                text=f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling**\n\
+                text=f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling**\nFor any help you can Contact me at:-[BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\
                 Example :- `/search Avengers`\n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , \
-                अगर वह मेरे database में होगी तो आपके भेज दी जाएगी"
+                अगर वह मेरे database में होगी तो आपके भेज दी जाएगी\nकिसी भी अन्य सहायता के लिए आप:- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर सकते है"
             )
         except Exception as e:
             await cmd.message.edit(f"somthing went wrong\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
