@@ -66,7 +66,7 @@ async def search(bot, message):
             प्रिय User आपके द्वारा send की गई मूवी हमारे database में नही है।कृपया भेजी गई मूवी के नाम की spelling check कर ले शायद हो सकता है कि वह spelling गलत हो , \
             spelling चेक करने के लिए आप google की सहायता ले सकते है \nकिसी अन्य सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर कर सकते है")
     except Exception as e:
-        await msg.edit(f"**🚫Error during searching files in Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\n\
+        return await msg.edit(f"**🚫Error during searching files in Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\n\
         Error From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , movie name को Database में सर्च करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे")
 
 
@@ -181,9 +181,9 @@ async def channel_info(bot, message):
 async def log_file(bot, message):
     """Send log file"""
     try:
-        await message.reply_document('TelegramBot.log')
+        return await message.reply_document('TelegramBot.log')
     except Exception as e:
-        await message.reply(f"**__something went wrong to send log_file__**\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+        return await message.reply(f"**__something went wrong to send log_file__**\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
 
 
 @Client.on_message(filters.command('delete_file') & filters.private & filters.user(Config.BOT_ADMINS))
@@ -213,9 +213,9 @@ async def delete_file(bot, message):
         deleted = await db.delete_media(file_unique_id)
         
         if deleted.deleted_count:
-            await msg.edit(f"**Total Files : __`{deleted.deleted_count}`__  are successfully deleted from database**")
+            return await msg.edit(f"**Total Files : __`{deleted.deleted_count}`__  are successfully deleted from database**")
         else:
-            await msg.edit('File_id not found in database')
+            return await msg.edit('File_id not found in database')
     except Exception as e:
         return await message.reply(f"**__something went wrong during delete file from database__**\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
         
