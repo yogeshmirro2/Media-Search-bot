@@ -50,9 +50,9 @@ async def search(bot, message):
                 result_size = result.get("file_size")
                 result_size = await get_file_size(result_size)
                 if check == "PRIVATE":
-                    btn.append([InlineKeyboardButton(f"{result_size}:{result_caption}" ,quote=True ,callback_data=f"sendp_{result_unique_id}")])
+                    btn.append([InlineKeyboardButton(f"{result_size}:{result_caption}" ,callback_data=f"sendp_{result_unique_id}")])
                 else:
-                    btn.append([InlineKeyboardButton(f"{result_size}:{result_caption}",quote=True, callback_data=f"sendg_{result_unique_id}")])
+                    btn.append([InlineKeyboardButton(f"{result_size}:{result_caption}", callback_data=f"sendg_{result_unique_id}")])
             #adding next ,back , close & page No. button
             if total_pages==1:
                 btn.append([InlineKeyboardButton(f"{current_page}/{total_pages}",callback_data="ignore")])
@@ -66,8 +66,8 @@ async def search(bot, message):
             प्रिय User आपके द्वारा send की गई मूवी हमारे database में नही है।कृपया भेजी गई मूवी के नाम की spelling check कर ले शायद हो सकता है कि वह spelling गलत हो , \
             spelling चेक करने के लिए आप google की सहायता ले सकते है \nकिसी अन्य सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर कर सकते है")
     except Exception as e:
-        await message.reply(f"**🚫Error during searching files in Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\n\
-        Error From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , movie name को Database में सर्च करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे" ,quote=True)
+        await msg.edit(f"**🚫Error during searching files in Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\n\
+        Error From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , movie name को Database में सर्च करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे")
 
 
 
