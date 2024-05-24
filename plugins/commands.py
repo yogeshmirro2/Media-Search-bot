@@ -3,13 +3,21 @@ import logging
 import asyncio
 from pyrogram import Client,filters,enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup,Message,CallbackQuery
-from utils.helpers import get_file_size, handle_force_sub, user_verify_status, main_broadcast_handler
+from utils.helpers import get_file_size, handle_force_sub, user_verify_status, main_broadcast_handler ,str_to_b64 ,b64_to_str
 from info import Config
 from utils.database import db
 logger = logging.getLogger(__name__)
+BotCmd = ["start","help","channel","logger","delete_file","delete_channel",
+"change_update_channel","delete_update_channel","change_update_channel_link","delete_update_channel_link",
+"change_verification","change_verify_days","delete_verify_days","change_use_pre_shorted_link","change_verify_key_link_list",
+"delete_verify_key_link_list","change_shortner_api_link","delete_shortner_api_link","change_how_to_verify",
+"delete_how_to_verify","status","broadcast","change_use_caption_filter"]
 
-@Client.on_message(filters.command('search') & filters.private)
+
+@Client.on_message(filters.text & filters.private|filters.group & ~filters.command(BotCmd))
 async def search(bot, message):
+    if not message.from_user:
+        return await message.reply_text("I don't know about you sar :(")
     try:
         user_exist = await db.is_user_exist(message.from_user.id)
         if not user_exist:
@@ -19,18 +27,21 @@ async def search(bot, message):
             back = await handle_force_sub(bot,message)
             if back == 400:
                 return
-        
+    
     except Exception as e:
         return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to:- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\n\
         प्रिय User , नये user को Database में add करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे" ,quote=True)
+    
+
     try:
-        msg_split = message.text.split("/search ")
-        if len(msg_split)<2:
-            return await message.reply(f"**Plz Send Movie Name Along With search Command🤚**\nExample :- `/search Avenger`\nFor any help contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\nMovie सर्च करने के लिए कृपया इस तरह से command भेजे :- `/search Avengers` \n\
-            किसी भी प्रकार की सहायता के लिए आप यहां संपर्क कर सकते है :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})" ,quote=True, reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('+ADD ME TO YOUR GROUPS', url=f'http://t.me/{Config.BOT_USERNAME}?startgroup=true')]]))
-        msg = await message.reply("Plz wait⌛ searching your movie......\n\nआपकी movie सर्च की जा रही है कृपया प्रतीक्षा⏳ करें......." ,quote=True)
-        query = msg_split[-1]
+        msg = await message.reply("Plz wait⌛ searching your query......\n\nआपकी movie सर्च की जा रही है कृपया प्रतीक्षा⏳ करें......." ,quote=True)
+        query = message.text
         files, total_results, total_pages, current_page = await db.get_search_results(query)
+        check =""
+        if message.chat.type == enums.ChatType.PRIVATE:
+            check += "PRIVATE"
+        else:
+            check += "GROUP"
         if len(files)>=1:
             btn = []
             for result in files:
@@ -38,7 +49,10 @@ async def search(bot, message):
                 result_caption = result.get("file_caption")
                 result_size = result.get("file_size")
                 result_size = await get_file_size(result_size)
-                btn.append([InlineKeyboardButton(f"{result_size}:{result_caption}", callback_data=f"send_{result_unique_id}")])
+                if check == "PRIVATE":
+                    btn.append([InlineKeyboardButton(f"{result_size}:{result_caption}" ,quote=True ,callback_data=f"sendp_{result_unique_id}")])
+                else:
+                    btn.append([InlineKeyboardButton(f"{result_size}:{result_caption}",quote=True, callback_data=f"sendg_{result_unique_id}")])
             #adding next ,back , close & page No. button
             if total_pages==1:
                 btn.append([InlineKeyboardButton(f"{current_page}/{total_pages}",callback_data="ignore")])
@@ -55,9 +69,13 @@ async def search(bot, message):
         await message.reply(f"**🚫Error during searching files in Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\n\
         Error From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , movie name को Database में सर्च करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे" ,quote=True)
 
+
+
 @Client.on_message(filters.command('start') & filters.private)
 async def start(bot, message):
     """Start command handler"""
+    if not message.from_user:
+        return await message.reply_text("I don't know about you sar :(")
     
     if len(message.command)==1:
         try:
@@ -77,8 +95,8 @@ async def start(bot, message):
             प्रिय User , नये user को Database में add करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे" ,quote=True)
     
        
-        return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling**\nFor any help contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\
-        Example :- `/search Avengers`\n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , \
+        return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling\ndirectly send me only movie or webseries name**\nFor any help contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\
+        \n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप किसी भी movie/webseries को सर्च करने के लिए उस movie या webseries का नाम directly मुझे भेज सकते है, \
         अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nकिसी सहायता के लिए आप :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर सकते है" ,quote=True ,reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('+ADD ME TO YOUR GROUPS', url=f'http://t.me/{Config.BOT_USERNAME}?startgroup=true')]]))
     
     elif len(message.command)>1 and "verify" in message.command[1]:
@@ -88,15 +106,26 @@ async def start(bot, message):
                 response = await user_verify_status(bot,message,edits)
                 return
             
-            elif message.from_user.id in Config.BOT_ADMINS:
+            if message.from_user.id in Config.BOT_ADMINS:
                 return await message.reply(f"**__You are admin ,then why you are try for verification🤔🤔🤔🤔__**")
         
         
-            else:
-                return await message.reply("I don't know about you sar :(😤😤😤😤")
-        
         except Exception as e:
-            return await message.reply(f"**__Something Went Wrong in Verification__**\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+            return await message.reply(f"**__Something Went Wrong in Verification__\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})**\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+    
+    elif len(message.command)>1 and "send" in message.command[1]:
+        try:
+            response = await verify_before_send(bot,message)
+            if response == 20:
+                file_unique_id = message.command[1].split("_")[-1]
+                file_id , file_caption = await db.get_file(file_unique_id)
+                return await bot.send_cached_media(message.from_user.id,file_id,file_caption)
+            return
+        except Exception as e:
+            await message.edit(f"somthing went wrong\nplz forward this error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+            Error From :- `{__file__,e.__traceback__.tb_lineno}`")
+            return
+    
     
     
     else:
