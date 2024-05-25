@@ -161,7 +161,7 @@ async def help(bot, message):
 
     return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can send me directly movie/webseries name with correct spelling**\n\
     \n\n if you face any problem, contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\n**प्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , \
-    अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nयदि आपको bot को प्रयोग करने में कोई समस्या आ रही ह या bot को कैसे प्रयोग करना है या अन्य किसी सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर संपर्क कर सकते है**" ,quote=True ,reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('+ADD ME TO YOUR GROUPS', url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')],[InlineKeyboardButton('Join Updates Channel',url=f'{await db.update_channel_link_status('get_link')}')]]))
+    अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nयदि आपको bot को प्रयोग करने में कोई समस्या आ रही ह या bot को कैसे प्रयोग करना है या अन्य किसी सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर संपर्क कर सकते है**" ,quote=True ,reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('+ADD ME TO YOUR GROUPS', url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')],[InlineKeyboardButton('Join Updates Channel',url=f"{await db.update_channel_link_status('get_link')}")]]))
 
 @Client.on_message (filters.command('channel') & filters.private & filters.user(Config.BOT_ADMINS))
 async def channel_info(bot, message):
