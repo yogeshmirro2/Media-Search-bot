@@ -185,7 +185,7 @@ async def user_verify_status(bot: Client, cmd: Message, edits: Message):
 
 
 
-async def verify_before_send(bot:Client,messag:Message):
+async def verify_before_send(bot:Client,message:Message):
     try:
         if message.from_user.id in Config.BOT_ADMINS:
             return 20
