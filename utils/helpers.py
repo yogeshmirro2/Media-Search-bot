@@ -59,16 +59,14 @@ async def handle_force_sub(bot: Client, cmd: Message):
         try:
             user = await bot.get_chat_member(chat_id=update_channel, user_id=cmd.from_user.id)
             if user.status == "kicked":
-                await bot.send_message(
-                    chat_id=cmd.from_user.id,
+                await cmd.reply(
                     text="Sorry Sir, You are Banned to use me..",
                     disable_web_page_preview=True
                 )
                 return 400
         except UserNotParticipant:
             try:
-                await bot.send_message(
-                    chat_id=cmd.from_user.id,
+                await cmd.reply(
                     text="**Please Join My Updates Channel to use this Bot!**\n\n"
                          "Due to Overload, Only Channel Subscribers can use the Bot!",
                     reply_markup=InlineKeyboardMarkup(
@@ -84,15 +82,13 @@ async def handle_force_sub(bot: Client, cmd: Message):
                 )
                 return 400
             except Exception:
-                await bot.send_message(
-                    chat_id=cmd.from_user.id,
+                await cmd.reply(
                     text=f"**🚫Error during Force Subscribe 🚫\nPlz Forward this Error to Bot Owner🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",
                     disable_web_page_preview=True
                 )
                 return 400
         except Exception:
-            await bot.send_message(
-                chat_id=cmd.from_user.id,
+            await cmd.reply(
                 text=f"**🚫Error during Force Subscribe 🚫\nPlz Forward this Error to Bot Owner🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",
                 disable_web_page_preview=True
             )
