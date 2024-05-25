@@ -3,7 +3,7 @@ import logging
 import asyncio
 from pyrogram import Client,filters,enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup,Message,CallbackQuery
-from utils.helpers import get_file_size, handle_force_sub, user_verify_status, main_broadcast_handler ,str_to_b64 ,b64_to_str
+from utils.helpers import get_file_size, handle_force_sub, user_verify_status,verify_before_send, main_broadcast_handler ,str_to_b64 ,b64_to_str
 from info import Config
 from utils.database import db
 logger = logging.getLogger(__name__)
@@ -92,7 +92,7 @@ async def start(bot, message):
                     return
         
         except Exception as e:
-            return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to Config.BOT_ADMINS[0] :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\n\
+            return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\n\
             Error⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\n\
             प्रिय User , नये user को Database में add करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे" ,quote=True)
     
