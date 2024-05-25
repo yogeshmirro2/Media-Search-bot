@@ -14,7 +14,7 @@ BotCmd = ["start","help","channel","logger","delete_file","delete_channel",
 "delete_how_to_verify","status","broadcast","change_use_caption_filter"]
 
 
-@Client.on_message(filters.text & filters.private|filters.group & ~filters.command(BotCmd))
+@Client.on_message(filters.text & ~filters.command(BotCmd) & filters.private|filters.group)
 async def search(bot, message):
     if not message.from_user:
         return await message.reply_text("I don't know about you sar :(")
