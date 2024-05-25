@@ -67,10 +67,16 @@ async def search(bot, message):
             btn.append([InlineKeyboardButton("Close", callback_data="close")])
             return await msg.edit(f"**{total_results}** Result Found for **__{query}__**",reply_markup = InlineKeyboardMarkup(btn))
         else:
+            channel_link = await db.update_channel_link_status('get_link')
+            if channel_link is not None:
+                btn = InlineKeyboardMarkup([[InlineKeyboardButton('ADD ME TO YOUR GROUP',url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')],[InlineKeyboardButton('Join My Updates Channel',url=channel_link)]])
+            else:
+                btn = InlineKeyboardMarkup([[InlineKeyboardButton('ADD ME TO YOUR GROUP',url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')]])
+            
             return await msg.edit(f"**__Can't find any Movie for\n`{query}`\nPlz check your movie name spelling,\
             you can take help of google for correct spelling of movie name__**\nFor any help contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\n\
             प्रिय User आपके द्वारा send की गई मूवी हमारे database में नही है।कृपया भेजी गई मूवी के नाम की spelling check कर ले शायद हो सकता है कि वह spelling गलत हो , \
-            spelling चेक करने के लिए आप google की सहायता ले सकते है \nकिसी अन्य सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर कर सकते है",reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Join Updates Channel', url=f"{await db.update_channel_link_status('get_link')}")],[InlineKeyboardButton('ADD ME TO YOUR GROUP',url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')]]))
+            spelling चेक करने के लिए आप google की सहायता ले सकते है \nकिसी अन्य सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर कर सकते है",reply_markup = btn)
     except Exception as e:
         return await msg.edit(f"**🚫Error during searching files in Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\n\
         Error From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , movie name को Database में सर्च करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे")
@@ -85,60 +91,71 @@ async def start(bot, message):
     
     if message.from_user.is_bot:
         return
-    
-    if len(message.command)==1:
-        try:
+    try:
+        if len(message.command)==1:
+            try:
+                user_exist = await db.is_user_exist(message.from_user.id)
+                if not user_exist:
+                    await db.add_user(message.from_user.id)
+                
+                if message.from_user.id not in Config.BOT_ADMINS:
+                    back = await handle_force_sub(bot,message)
+                    if back == 400:
+                        return
             
-            user_exist = await db.is_user_exist(message.from_user.id)
-            if not user_exist:
-                await db.add_user(message.from_user.id)
+            except Exception as e:
+                return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\n\
+                Error⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\n\
+                प्रिय User , नये user को Database में add करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे" ,quote=True)
             
-            if message.from_user.id not in Config.BOT_ADMINS:
-                back = await handle_force_sub(bot,message)
-                if back == 400:
+            channel_link = await db.update_channel_link_status('get_link')
+            if channel_link is not None:
+                btn = InlineKeyboardMarkup([[InlineKeyboardButton('ADD ME TO YOUR GROUP',url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')],[InlineKeyboardButton('Join My Updates Channel',url=channel_link)]])
+            else:
+                btn = InlineKeyboardMarkup([[InlineKeyboardButton('ADD ME TO YOUR GROUP',url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')]])
+            
+           
+            return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling\ndirectly send me only movie or webseries name**\nFor any help contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\
+            \n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप किसी भी movie/webseries को सर्च करने के लिए उस movie या webseries का नाम directly मुझे भेज सकते है, \
+            अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nकिसी सहायता के लिए आप :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर सकते है" ,quote=True ,reply_markup = btn)
+        
+        elif len(message.command)>1 and "verify" in message.command[1]:
+            try:
+                if message.from_user.id not in Config.BOT_ADMINS:
+                    edits = await message.reply(f"**Plz __Wait Processing__ Your Verification**")
+                    response = await user_verify_status(bot,message,edits)
                     return
-        
-        except Exception as e:
-            return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\n\
-            Error⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\n\
-            प्रिय User , नये user को Database में add करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे" ,quote=True)
-    
-       
-        return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling\ndirectly send me only movie or webseries name**\nFor any help contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\
-        \n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप किसी भी movie/webseries को सर्च करने के लिए उस movie या webseries का नाम directly मुझे भेज सकते है, \
-        अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nकिसी सहायता के लिए आप :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर सकते है" ,quote=True ,reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('+ADD ME TO YOUR GROUPS', url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')],[InlineKeyboardButton('Join Updates Channel', url=f"{await db.update_channel_link_status('get_link')}")]]))
-    
-    elif len(message.command)>1 and "verify" in message.command[1]:
-        try:
-            if message.from_user.id not in Config.BOT_ADMINS:
-                edits = await message.reply(f"**Plz __Wait Processing__ Your Verification**")
-                response = await user_verify_status(bot,message,edits)
-                return
+                
+                if message.from_user.id in Config.BOT_ADMINS:
+                    return await message.reply(f"**__You are admin ,then why you are try for verification🤔🤔🤔🤔__**")
             
-            if message.from_user.id in Config.BOT_ADMINS:
-                return await message.reply(f"**__You are admin ,then why you are try for verification🤔🤔🤔🤔__**")
+            
+            except Exception as e:
+                return await message.reply(f"**__Something Went Wrong in Verification__\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})**\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
+        
+        elif len(message.command)>1 and "send" in message.command[1]:
+            try:
+                response = await verify_before_send(bot,message)
+                if response == 20:
+                    file_unique_id = message.command[1].split("_")[-1]
+                    file_id , file_caption = await db.get_file(file_unique_id)
+                    return await bot.send_cached_media(message.from_user.id,file_id,file_caption)
+                return
+            except Exception as e:
+                await message.reply(f"somthing went wrong\nplz forward this error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+                Error From :- `{__file__,e.__traceback__.tb_lineno}`")
+                return
         
         
-        except Exception as e:
-            return await message.reply(f"**__Something Went Wrong in Verification__\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})**\nError - {e}\nError Type - `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`",quote=True)
-    
-    elif len(message.command)>1 and "send" in message.command[1]:
-        try:
-            response = await verify_before_send(bot,message)
-            if response == 20:
-                file_unique_id = message.command[1].split("_")[-1]
-                file_id , file_caption = await db.get_file(file_unique_id)
-                return await bot.send_cached_media(message.from_user.id,file_id,file_caption)
-            return
-        except Exception as e:
-            await message.reply(f"somthing went wrong\nplz forward this error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
-            Error From :- `{__file__,e.__traceback__.tb_lineno}`")
-            return
-    
-    
-    
-    else:
-        return await message.reply(f"**🚫Can't identify your command🚫**")
+        
+        else:
+            return await message.reply(f"**🚫Can't identify your command🚫**")
+
+    except Exception as e:
+        await message.reply(f"somthing went wrong\nplz forward this error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+        Error From :- `{__file__,e.__traceback__.tb_lineno}`")
+        return
+
 
 @Client.on_message(filters.command('help') & filters.private|filters.group)
 async def help(bot, message):
@@ -159,9 +176,22 @@ async def help(bot, message):
     except Exception as e:
         return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to Bot Owner🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , नये user को Database में add करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक को भेज दे" ,quote=True)
 
-    return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can send me directly movie/webseries name with correct spelling**\n\
-    \n\n if you face any problem, contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\n**प्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , \
-    अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nयदि आपको bot को प्रयोग करने में कोई समस्या आ रही ह या bot को कैसे प्रयोग करना है या अन्य किसी सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर संपर्क कर सकते है**" ,quote=True ,reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('+ADD ME TO YOUR GROUPS', url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')],[InlineKeyboardButton('Join Updates Channel',url=f"{await db.update_channel_link_status('get_link')}")]]))
+    try:
+        channel_link = await db.update_channel_link_status('get_link')
+        if channel_link is not None:
+            btn = InlineKeyboardMarkup([[InlineKeyboardButton('ADD ME TO YOUR GROUP',url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')],[InlineKeyboardButton('Join My Updates Channel',url=channel_link)]])
+        else:
+            btn = InlineKeyboardMarkup([[InlineKeyboardButton('ADD ME TO YOUR GROUP',url=f'https://t.me/{Config.BOT_USERNAME}?startgroup=true')]])
+        
+        
+        return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can send me directly movie/webseries name with correct spelling**\n\
+        \n\n if you face any problem, contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\n**प्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , \
+        अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nयदि आपको bot को प्रयोग करने में कोई समस्या आ रही ह या bot को कैसे प्रयोग करना है या अन्य किसी सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर संपर्क कर सकते है**" ,quote=True ,reply_markup = btn)
+    except Exception as e:
+            await message.reply(f"somthing went wrong\nplz forward this error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+            Error From :- `{__file__,e.__traceback__.tb_lineno}`")
+            return
+
 
 @Client.on_message (filters.command('channel') & filters.private & filters.user(Config.BOT_ADMINS))
 async def channel_info(bot, message):
