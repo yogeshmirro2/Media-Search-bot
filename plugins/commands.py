@@ -16,6 +16,8 @@ BotCmd = ["start","help","channel","logger","delete_file","delete_channel",
 
 @Client.on_message(filters.text & ~filters.command(BotCmd) & filters.private|filters.group)
 async def search(bot, message):
+    if message.service:
+        return
     if not message.from_user:
         return await message.reply_text("I don't know about you sar :(")
     try:
@@ -90,7 +92,7 @@ async def start(bot, message):
                     return
         
         except Exception as e:
-            return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\n\
+            return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to Config.BOT_ADMINS[0] :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\n\
             Error⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\n\
             प्रिय User , नये user को Database में add करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे" ,quote=True)
     
@@ -122,7 +124,7 @@ async def start(bot, message):
                 return await bot.send_cached_media(message.from_user.id,file_id,file_caption)
             return
         except Exception as e:
-            await message.edit(f"somthing went wrong\nplz forward this error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
+            await message.reply(f"somthing went wrong\nplz forward this error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
             Error From :- `{__file__,e.__traceback__.tb_lineno}`")
             return
     
