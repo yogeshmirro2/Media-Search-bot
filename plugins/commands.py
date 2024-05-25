@@ -21,7 +21,7 @@ async def search(bot, message):
     if not message.from_user:
         return await message.reply_text("I don't know about you sar :(")
     
-    if message.from_user & message.from_user.is_bot:
+    if message.from_user.is_bot:
         return
     
     try:
@@ -83,7 +83,7 @@ async def start(bot, message):
     if not message.from_user:
         return await message.reply_text("I don't know about you sar :(")
     
-    if message.from_user & message.from_user.is_bot:
+    if message.from_user.is_bot:
         return
     
     if len(message.command)==1:
@@ -143,6 +143,9 @@ async def start(bot, message):
 @Client.on_message(filters.command('help') & filters.private|filters.group)
 async def help(bot, message):
     """help command handler"""
+    if message.from_user.is_bot:
+        return
+    
     try:
         user_exist = await db.is_user_exist(message.from_user.id)
         if not user_exist:
