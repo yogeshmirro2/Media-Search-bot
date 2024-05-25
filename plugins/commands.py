@@ -20,6 +20,10 @@ async def search(bot, message):
         return
     if not message.from_user:
         return await message.reply_text("I don't know about you sar :(")
+    
+    if message.from_user & message.from_user.is_bot:
+        return
+    
     try:
         user_exist = await db.is_user_exist(message.from_user.id)
         if not user_exist:
@@ -66,18 +70,21 @@ async def search(bot, message):
             return await msg.edit(f"**__Can't find any Movie for\n`{query}`\nPlz check your movie name spelling,\
             you can take help of google for correct spelling of movie name__**\nFor any help contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\n\
             प्रिय User आपके द्वारा send की गई मूवी हमारे database में नही है।कृपया भेजी गई मूवी के नाम की spelling check कर ले शायद हो सकता है कि वह spelling गलत हो , \
-            spelling चेक करने के लिए आप google की सहायता ले सकते है \nकिसी अन्य सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर कर सकते है")
+            spelling चेक करने के लिए आप google की सहायता ले सकते है \nकिसी अन्य सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर कर सकते है",reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Join Updates Channel', url=f"{Config.INVITE_LINK}")],[InlineKeyboardButton('ADD ME TO YOUR GROUP',url=f'http://t.me/{Config.BOT_USERNAME}?startgroup=true')]]))
     except Exception as e:
         return await msg.edit(f"**🚫Error during searching files in Database🚫\nPlz Forward this Error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\n\
         Error From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , movie name को Database में सर्च करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) को भेज दे")
 
 
 
-@Client.on_message(filters.command('start') & filters.private)
+@Client.on_message(filters.command('start') & filters.private|filters.group)
 async def start(bot, message):
     """Start command handler"""
     if not message.from_user:
         return await message.reply_text("I don't know about you sar :(")
+    
+    if message.from_user & message.from_user.is_bot:
+        return
     
     if len(message.command)==1:
         try:
@@ -99,7 +106,7 @@ async def start(bot, message):
        
         return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling\ndirectly send me only movie or webseries name**\nFor any help contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\
         \n\nप्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप किसी भी movie/webseries को सर्च करने के लिए उस movie या webseries का नाम directly मुझे भेज सकते है, \
-        अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nकिसी सहायता के लिए आप :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर सकते है" ,quote=True ,reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('+ADD ME TO YOUR GROUPS', url=f'http://t.me/{Config.BOT_USERNAME}?startgroup=true')]]))
+        अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nकिसी सहायता के लिए आप :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर सम्पर्क कर सकते है" ,quote=True ,reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('+ADD ME TO YOUR GROUPS', url=f'http://t.me/{Config.BOT_USERNAME}?startgroup=true')],[InlineKeyboardButton('Join Updates Channel', url=f"{Config.INVITE_LINK}")]]))
     
     elif len(message.command)>1 and "verify" in message.command[1]:
         try:
@@ -133,7 +140,7 @@ async def start(bot, message):
     else:
         return await message.reply(f"**🚫Can't identify your command🚫**")
 
-@Client.on_message(filters.command('help') & filters.private)
+@Client.on_message(filters.command('help') & filters.private|filters.group)
 async def help(bot, message):
     """help command handler"""
     try:
@@ -149,9 +156,9 @@ async def help(bot, message):
     except Exception as e:
         return await message.reply(f"**🚫Error during adding user to Database🚫\nPlz Forward this Error to Bot Owner🛂**\nError⚠️:`{e}`\nError Type➡️ `{e.__class__.__name__}`\nError From :- `{__file__,e.__traceback__.tb_lineno}`\n\nप्रिय User , नये user को Database में add करने में problem आ रही है । कृपया इस mesaage को  Bot के मालिक को भेज दे" ,quote=True)
 
-    return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can search movie/webseries name with correct spelling**\n\
-    Example :\n1.In PM :- `/search Avengers`\n2.In Group :-`directy send movie name with correct spelling`\n\n if you face any problem, contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\n**प्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , \
-    अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nयदि आपको bot को प्रयोग करने में कोई समस्या आ रही ह या bot को कैसे प्रयोग करना है या अन्य किसी सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर संपर्क कर सकते है**" ,quote=True ,reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('+ADD ME TO YOUR GROUPS', url=f'http://t.me/{Config.BOT_USERNAME}?startgroup=true')]]))
+    return await message.reply(f"**Hi! I'm Movie/Webserver search bot\nHere you can send me directly movie/webseries name with correct spelling**\n\
+    \n\n if you face any problem, contact at :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\n\n**प्रिय यूजर! मैं एक simple movie/webseries सर्च bot हूं।आप कोई भी movie/webseries सर्च कर सकते है , \
+    अगर वह मेरे database में होगी तो आपके भेज दी जाएगी \nयदि आपको bot को प्रयोग करने में कोई समस्या आ रही ह या bot को कैसे प्रयोग करना है या अन्य किसी सहायता के लिए आप [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]}) पर संपर्क कर सकते है**" ,quote=True ,reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('+ADD ME TO YOUR GROUPS', url=f'http://t.me/{Config.BOT_USERNAME}?startgroup=true')],[InlineKeyboardButton('Join Updates Channel',url=f'{Config.INVITE_LINK}')]]))
 
 @Client.on_message (filters.command('channel') & filters.private & filters.user(Config.BOT_ADMINS))
 async def channel_info(bot, message):
