@@ -66,7 +66,7 @@ async def button(bot:Client, cmd:CallbackQuery):
             try:
                 response = await verify_before_send(bot,cmd.message.reply_to_message)
                 if response == 20:
-                    file_unique_id = cb_data.split("_",1)[-1]
+                    file_unique_id = cb_data.split("sendp_",1)[-1]
                     file_id , file_caption = await db.get_file(file_unique_id)#cb_data.split("_")[-1] get file_unique_id
                     await bot.send_cached_media(cmd.from_user.id,file_id,file_caption)
                     await cmd.answer()
@@ -80,7 +80,7 @@ async def button(bot:Client, cmd:CallbackQuery):
         #else sendg in cb_data
         else:
             try:
-                file_unique_id = cb_data.split("_",1)[-1]
+                file_unique_id = cb_data.split("sendg_",1)[-1]
                 return await cmd.answer(url=f"https://t.me/{Config.BOT_USERNAME}?start=send_{file_unique_id}")
             except Exception as e:
                 await cmd.message.edit(f"somthing went wrong\nplz forward this error to :- [BOT_ADMIN](tg://user?id={Config.BOT_ADMINS[0]})\nError - {e}\nError Type - `{e.__class__.__name__}`\n\
