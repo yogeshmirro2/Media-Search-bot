@@ -137,7 +137,7 @@ async def start(bot, message):
             try:
                 response = await verify_before_send(bot,message)
                 if response == 20:
-                    file_unique_id = message.command[1].split("_")[-1]
+                    file_unique_id = message.command[1].split("send_")[-1]
                     file_id , file_caption = await db.get_file(file_unique_id)
                     return await bot.send_cached_media(message.from_user.id,file_id,file_caption)
                 return
